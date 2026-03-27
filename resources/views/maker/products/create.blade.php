@@ -1,0 +1,86 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Nieuw product toevoegen</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ route('maker.products.store') }}">
+                    @csrf
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Productnaam *</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                               id="name" name="name" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Beschrijving *</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror"
+                                  id="description" name="description" rows="5" required>{{ old('description') }}</textarea>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="text-muted">Beschrijf je product zo gedetailleerd mogelijk.</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="type" class="form-label">Type *</label>
+                            <select class="form-select @error('type') is-invalid @enderror" id="type" name="type" required>
+                                <option value="">Kies een type</option>
+                                <option value="sieraden" {{ old('type')=='sieraden' ? 'selected' : '' }}>Sieraden</option>
+                                <option value="meubels" {{ old('type')=='meubels' ? 'selected' : '' }}>Meubels</option>
+                                <option value="kleding" {{ old('type')=='kleding' ? 'selected' : '' }}>Kleding</option>
+                                <option value="kunst" {{ old('type')=='kunst' ? 'selected' : '' }}>Kunst</option>
+                                <option value="keramiek" {{ old('type')=='keramiek' ? 'selected' : '' }}>Keramiek</option>
+                            </select>
+                            @error('type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="material" class="form-label">Materiaal *</label>
+                            <select class="form-select @error('material') is-invalid @enderror" id="material" name="material" required>
+                                <option value="">Kies materiaal</option>
+                                <option value="hout" {{ old('material')=='hout' ? 'selected' : '' }}>Hout</option>
+                                <option value="metaal" {{ old('material')=='metaal' ? 'selected' : '' }}>Metaal</option>
+                                <option value="textiel" {{ old('material')=='textiel' ? 'selected' : '' }}>Textiel</option>
+                                <option value="keramiek" {{ old('material')=='keramiek' ? 'selected' : '' }}>Keramiek</option>
+                                <option value="glas" {{ old('material')=='glas' ? 'selected' : '' }}>Glas</option>
+                            </select>
+                            @error('material')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="production_time" class="form-label">Levertijd (dagen) *</label>
+                        <input type="number" class="form-control @error('production_time') is-invalid @enderror"
+                               id="production_time" name="production_time" value="{{ old('production_time') }}" min="1" required>
+                        @error('production_time')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="text-muted">Hoeveel dagen heb je nodig om dit product te maken?</small>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>ℹ️ Info:</strong> Na het toevoegen wordt je product beoordeeld door een moderator. Zodra het is goedgekeurd, wordt het zichtbaar voor kopers.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Product opslaan</button>
+                    <a href="{{ route('maker.products.index') }}" class="btn btn-secondary">Annuleren</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
